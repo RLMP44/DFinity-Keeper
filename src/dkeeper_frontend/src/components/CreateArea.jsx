@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-// import AddIcon from "@mui/icons-material/Add";
-// import { Fab } from "@mui/material";
-// import { Zoom } from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
+import { Fab } from "@mui/material";
+import { Zoom } from "@mui/material";
 
 function CreateArea(props) {
   const [isExpanded, setIsExpanded] = useState(false);
@@ -58,7 +58,7 @@ function CreateArea(props) {
           value={note.content}
           rows={isExpanded ? 3 : 1}
         />
-        {/* <Zoom in={isExpanded}>
+        <Zoom in={isExpanded}>
           <Fab
             style={isMouseOver ? { backgroundColor: "grey" } : {}}
             className="add-button"
@@ -68,7 +68,7 @@ function CreateArea(props) {
           >
             <AddIcon />
           </Fab>
-        </Zoom> */}
+        </Zoom>
       </form>
     </div>
   );
