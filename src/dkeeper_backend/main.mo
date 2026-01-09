@@ -5,6 +5,7 @@ persistent actor DKeeper {
 
   // make public so it is accessible from other parts of the app
   public type Note = {
+    id: Int;
     title: Text;
     content: Text;
   };
@@ -13,7 +14,17 @@ persistent actor DKeeper {
   var notes: List.List<Note> = List.nil<Note>();
 
   public func createNote(titleText: Text, contentText: Text) {
+    let latestNote = List.last(List.reverse(notes));
+    // no ternary operators in Motoko
+    let lastID =
+      switch (latestNote) {
+        case (null) 0;
+        case (?note) note.id;
+      };
+    let nextID = lastID + 1;
+
     let newNote: Note = {
+      id = nextID;
       title = titleText;
       content = contentText;
     };

@@ -4,24 +4,16 @@ import Footer from "./Footer";
 import Note from "./Note";
 import storedNotes from "../notes";
 import CreateArea from "./CreateArea";
-import { dkeeper } from "../../../declarations/dkeeper_backend";
+import { dkeeper_backend } from "../../../declarations/dkeeper_backend";
 
 function App() {
   const [notes, setNotes] = useState(storedNotes);
 
   function addNote(note) {
     setNotes((prevNotes) => {
-      var lastID = prevNotes.at(-1).id;
-      var nextID = lastID + 1;
+      dkeeper_backend.createNote(note.title, note.content);
 
-      return [
-        ...prevNotes,
-        {
-          id: nextID,
-          title: note.title,
-          content: note.content,
-        },
-      ];
+      return notes;
     });
   }
 
