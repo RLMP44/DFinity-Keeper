@@ -1,4 +1,5 @@
 import List "mo:base/List";
+import Array "mo:base/Array";
 import Debug "mo:base/Debug";
 
 persistent actor DKeeper {
@@ -32,6 +33,16 @@ persistent actor DKeeper {
     // Motoko pushes to the start of the array, not the end
     notes := List.push(newNote, notes);
     Debug.print(debug_show(notes));
-  }
+  };
+
+  // query increases speed of return
+  public query func readNotes(): async [Note] {
+    // convert to array as they are much faster on ICP
+    return Array.reverse(List.toArray(notes));
+  };
+
+  // public func clearNotes() : async () {
+  //   notes := List.nil<Note>();
+  // }
 
 }
