@@ -4,6 +4,7 @@ import Footer from "./Footer";
 import Note from "./Note";
 import storedNotes from "../notes";
 import CreateArea from "./CreateArea";
+import { dkeeper } from "../../../declarations/dkeeper_backend";
 
 function App() {
   const [notes, setNotes] = useState(storedNotes);
