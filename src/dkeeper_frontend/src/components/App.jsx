@@ -12,20 +12,39 @@ function App() {
   // needs second parameter to determine when to trigger to avoid infinite trigger loop
   // use [] to limit useEffect to be triggered only once when the website reloads
   useEffect(() => {
-    // fetchData needs to be asynchronous and useEffect can't be
+    let cancelled = false;
+
+    // useEffect can't be asynchronous, so must create a new async function
+    async function fetchData() {
+      while (!cancelled) {
+        try {
+          const notesArray = await dkeeper_backend.readNotes();
+
+          // set timeout to allow the replica to fully load
+          // otherwise notesArray will be empty
+          if (notesArray.length === 0) {
+            await new Promise((resolve) => setTimeout(resolve, 100));
+            continue;
+          }
+          setNotes(notesArray);
+          return;
+        } catch (err) {
+          // set timeout in case of trustErrors, etc
+          await new Promise((resolve) => setTimeout(resolve, 100));
+        }
+      }
+    }
     fetchData();
+    return () => {
+      cancelled = true;
+    };
   }, []);
 
-  async function fetchData() {
-    const notesArray = await dkeeper_backend.readNotes();
-    setNotes(notesArray);
-  }
 
   async function addNote(note) {
-    setNotes((prevNotes) => {
-      dkeeper_backend.createNote(note.title, note.content);
-      return [note, ...prevNotes];
-    });
+    await dkeeper_backend.createNote(note.title, note.content);
+    const updatedNotes = await dkeeper_backend.readNotes();
+    setNotes(updatedNotes);
   }
 
   function deleteNote(id) {
