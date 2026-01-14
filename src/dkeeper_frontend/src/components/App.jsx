@@ -50,9 +50,13 @@ function App() {
     updateNotes();
   }
 
-  async function deleteNote(id) {
-    await dkeeper_backend.deleteNote(id);
-    updateNotes();
+  function deleteNote(id) {
+    dkeeper_backend.deleteNote(id);
+    setNotes((prevNotes) => {
+      return prevNotes.filter((note) => {
+        return note.id !== id;
+      });
+    });
   }
 
   return (

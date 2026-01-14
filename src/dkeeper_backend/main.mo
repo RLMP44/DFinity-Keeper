@@ -1,5 +1,4 @@
 import List "mo:base/List";
-import Array "mo:base/Array";
 import Debug "mo:base/Debug";
 
 persistent actor DKeeper {
@@ -54,9 +53,4 @@ persistent actor DKeeper {
     );
     notes := updatedNotes;
   }
-
-  // public func clearNotes() : async () {
-  //   notes := List.nil<Note>();
-  // }
-
 }
