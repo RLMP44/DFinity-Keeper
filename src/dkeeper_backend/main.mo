@@ -38,8 +38,22 @@ persistent actor DKeeper {
   // query increases speed of return
   public query func readNotes(): async [Note] {
     // convert to array as they are much faster on ICP
-    return Array.reverse(List.toArray(notes));
+    return List.toArray(notes);
   };
+
+  public func deleteNote(id: Int) {
+    let updatedNotes = List.mapFilter<Note, Note>(
+      notes,
+      func (note : Note) : ?Note {
+        if (note.id != id) {
+          ?(note);
+        } else {
+          null;
+        }
+      }
+    );
+    notes := updatedNotes;
+  }
 
   // public func clearNotes() : async () {
   //   notes := List.nil<Note>();

@@ -40,19 +40,19 @@ function App() {
     };
   }, []);
 
-
-  async function addNote(note) {
-    await dkeeper_backend.createNote(note.title, note.content);
+  async function updateNotes() {
     const updatedNotes = await dkeeper_backend.readNotes();
     setNotes(updatedNotes);
   }
 
-  function deleteNote(id) {
-    setNotes((prevNotes) => {
-      return prevNotes.filter((note) => {
-        return note.id !== id;
-      });
-    });
+  async function addNote(note) {
+    await dkeeper_backend.createNote(note.title, note.content);
+    updateNotes();
+  }
+
+  async function deleteNote(id) {
+    await dkeeper_backend.deleteNote(id);
+    updateNotes();
   }
 
   return (
